@@ -28,7 +28,7 @@ const ballSizeAndPosition = ball.getBoundingClientRect()
 const ballCenterX = ballSizeAndPosition.width / 2 + ballSizeAndPosition.x
 const ballCenterY = ballSizeAndPosition.height / 2 + ballSizeAndPosition.y
 
-function generateBall() {
+function generateBallAtRandomY() {
   const randomY = Math.floor(
     Math.random() * (bodySizeAndPosition.height - ballSizeAndPosition.height)
   )
@@ -36,7 +36,33 @@ function generateBall() {
   ball.style.top = randomY.toString() + 'px'
 }
 
-console.log(bodySizeAndPosition.height)
-generateBall()
+generateBallAtRandomY()
+
+const randomTopOrBottom = Math.floor(Math.random() * 2) + 1
+
+function moveBallFromStartingPosition() {
+  const number = 3
+
+  const ballSizeAndPosition = ball.getBoundingClientRect()
+
+  const ballCenterX = ballSizeAndPosition.width / 2 + ballSizeAndPosition.x
+  const ballCenterY = ballSizeAndPosition.height / 2 + ballSizeAndPosition.y
+
+  if (randomTopOrBottom === 1) {
+    ball.style.left = (ballSizeAndPosition.x - number).toString() + 'px'
+
+    ball.style.top = (ballSizeAndPosition.y - number).toString() + 'px'
+  } else if (randomTopOrBottom === 2) {
+    ball.style.left = (ballSizeAndPosition.x - number).toString() + 'px'
+
+    ball.style.top = (ballSizeAndPosition.y + number).toString() + 'px'
+  }
+}
+
+setInterval(moveBallFromStartingPosition, 30)
+
+function moveBallUpwards() {}
+
+console.log(ballSizeAndPosition)
 
 const ballWidth = getComputedStyle(ball).getPropertyValue('--ball-width')
