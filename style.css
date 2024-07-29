@@ -1,0 +1,69 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --scrore-font-size: 2rem;
+  --primary-color: #5b33ee;
+  --secondary-color: #eef0f2;
+  --font-color: var(--secondary-color);
+  --bar-height: 80px;
+  --bar-width: 10px;
+  --player-bar-margin-left: 10px;
+  --computer-bar-margin-right: 10px;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background: var(--primary-color);
+}
+
+.score-divider {
+  margin: 0 16px;
+  font-size: var(--scrore-font-size);
+  transform: translateY(-8%);
+  font-size: var(--scrore-font-size);
+}
+
+.player-score,
+.computer-score {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.score-container {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--scrore-font-size);
+  color: var(--font-color);
+}
+
+.player-bar {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--bar-width);
+  height: var(--bar-height);
+  background: var(--secondary-color);
+  margin-left: var(--player-bar-margin-left);
+}
+
+.computer-bar {
+  position: absolute;
+  top: 50%;
+  left: calc(100vw - var(--bar-width) - var(--computer-bar-margin-right));
+  transform: translateY(-50%);
+  width: var(--bar-width);
+  height: var(--bar-height);
+  background: var(--secondary-color);
+}
