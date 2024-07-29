@@ -15,6 +15,7 @@
   --bar-width: 10px;
   --player-bar-margin-left: 10px;
   --computer-bar-margin-right: 10px;
+  --ball-width: 20px;
 }
 
 body {
@@ -67,4 +68,23 @@ body {
   width: var(--bar-width);
   height: var(--bar-height);
   background: var(--secondary-color);
+}
+
+.screen-divider {
+  width: 2px;
+  height: 100vh;
+  background: var(--secondary-color);
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ball {
+  width: var(--ball-width);
+  aspect-ratio: 1;
+  background: var(--secondary-color);
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
 }
