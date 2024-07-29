@@ -15,7 +15,6 @@
   --bar-width: 10px;
   --player-bar-margin-left: 10px;
   --computer-bar-margin-right: 10px;
-  --ball-width: 20px;
 }
 
 body {
@@ -80,7 +79,9 @@ body {
 }
 
 .ball {
-  width: var(--ball-width);
+  /* ball width in pixel */
+  --ball-width: 20;
+  width: calc(var(--ball-width) * 1px);
   aspect-ratio: 1;
   background: var(--secondary-color);
   border-radius: 50%;
