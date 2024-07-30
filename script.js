@@ -23,10 +23,13 @@ body.addEventListener('mousemove', (event) => {
   playerBar.style.top = mouseY.toString() + 'px'
 })
 
-const ballSizeAndPosition = ball.getBoundingClientRect()
+let ballSizeAndPosition = ball.getBoundingClientRect()
 
 const ballCenterX = ballSizeAndPosition.width / 2 + ballSizeAndPosition.x
 const ballCenterY = ballSizeAndPosition.height / 2 + ballSizeAndPosition.y
+
+let pxDistanceBallMove = 3
+let setIntervalNumberMs = 30
 
 function generateBallAtRandomY() {
   const randomY = Math.floor(
@@ -41,27 +44,50 @@ generateBallAtRandomY()
 const randomTopOrBottom = Math.floor(Math.random() * 2) + 1
 
 function moveBallFromStartingPosition() {
-  const number = 3
-
-  const ballSizeAndPosition = ball.getBoundingClientRect()
-
-  const ballCenterX = ballSizeAndPosition.width / 2 + ballSizeAndPosition.x
-  const ballCenterY = ballSizeAndPosition.height / 2 + ballSizeAndPosition.y
+  ballSizeAndPosition = ball.getBoundingClientRect()
 
   if (randomTopOrBottom === 1) {
-    ball.style.left = (ballSizeAndPosition.x - number).toString() + 'px'
-
-    ball.style.top = (ballSizeAndPosition.y - number).toString() + 'px'
+    setInterval(moveBallNorthWest, setIntervalNumberMs)
   } else if (randomTopOrBottom === 2) {
-    ball.style.left = (ballSizeAndPosition.x - number).toString() + 'px'
-
-    ball.style.top = (ballSizeAndPosition.y + number).toString() + 'px'
+    setInterval(moveBallSouthWest, setIntervalNumberMs)
   }
 }
 
-setInterval(moveBallFromStartingPosition, 30)
+moveBallFromStartingPosition()
 
-function moveBallUpwards() {}
+function moveBallNorthWest() {
+  ballSizeAndPosition = ball.getBoundingClientRect()
+  ball.style.left =
+    (ballSizeAndPosition.x - pxDistanceBallMove).toString() + 'px'
+
+  ball.style.top =
+    (ballSizeAndPosition.y - pxDistanceBallMove).toString() + 'px'
+}
+function moveBallSouthWest() {
+  ballSizeAndPosition = ball.getBoundingClientRect()
+  ball.style.left =
+    (ballSizeAndPosition.x - pxDistanceBallMove).toString() + 'px'
+
+  ball.style.top =
+    (ballSizeAndPosition.y + pxDistanceBallMove).toString() + 'px'
+}
+
+function moveBallNorthEast() {
+  ballSizeAndPosition = ball.getBoundingClientRect()
+  ball.style.left =
+    (ballSizeAndPosition.x + pxDistanceBallMove).toString() + 'px'
+
+  ball.style.top =
+    (ballSizeAndPosition.y - pxDistanceBallMove).toString() + 'px'
+}
+function moveBallSouthEast() {
+  ballSizeAndPosition = ball.getBoundingClientRect()
+  ball.style.left =
+    (ballSizeAndPosition.x + pxDistanceBallMove).toString() + 'px'
+
+  ball.style.top =
+    (ballSizeAndPosition.y + pxDistanceBallMove).toString() + 'px'
+}
 
 console.log(ballSizeAndPosition)
 
