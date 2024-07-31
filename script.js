@@ -43,10 +43,19 @@ let ballCurrentDirection
 let isBallHitByPlayer
 let isBallHitByComputer
 
+// distance and interval for ball
 let pxDistanceBallMove = 3
 let setIntervalNumberMs = 15
 
+// distance and interval for computer bar
+let pxDistanceComputerMove = 3
+let setIntervalComputer = 15
+
+let moveIntervalComputerNorth
+let moveIntervalComputerSouth
+
 const intervalIds = []
+const timeoutIds = []
 
 function generateBallAtRandomY() {
   const randomY = Math.floor(
@@ -100,6 +109,7 @@ function moveBallNorthWest() {
   ball.style.top =
     (ballSizeAndPosition.y - pxDistanceBallMove).toString() + 'px'
 
+  moveComputerBar()
   ifBallCollideLogic()
 }
 function moveBallSouthWest() {
@@ -109,7 +119,7 @@ function moveBallSouthWest() {
 
   ball.style.top =
     (ballSizeAndPosition.y + pxDistanceBallMove).toString() + 'px'
-
+  moveComputerBar()
   ifBallCollideLogic()
 }
 
@@ -122,6 +132,7 @@ function moveBallNorthEast() {
     (ballSizeAndPosition.y - pxDistanceBallMove).toString() + 'px'
 
   // console.log(ballSizeAndPosition.x, ballSizeAndPosition.y)
+  moveComputerBar()
   ifBallCollideLogic()
 }
 function moveBallSouthEast() {
@@ -132,6 +143,7 @@ function moveBallSouthEast() {
   ball.style.top =
     (ballSizeAndPosition.y + pxDistanceBallMove).toString() + 'px'
   // console.log(ballSizeAndPosition.x, ballSizeAndPosition.y)
+  moveComputerBar()
   ifBallCollideLogic()
 }
 
@@ -140,6 +152,7 @@ function moveBallEast() {
 
   ball.style.left =
     (ballSizeAndPosition.x + pxDistanceBallMove).toString() + 'px'
+  moveComputerBar()
   ifBallCollideLogic()
 }
 
@@ -148,6 +161,7 @@ function moveBallWest() {
 
   ball.style.left =
     (ballSizeAndPosition.x - pxDistanceBallMove).toString() + 'px'
+  moveComputerBar()
   ifBallCollideLogic()
 }
 
@@ -253,14 +267,52 @@ function clearAllInterval() {
 
 function moveComputerBar() {
   updateBallPosition()
+  updateComputerBarPosition()
+
+  if (ballCenterY < computerBarCenterY) {
+    clearInterval(moveIntervalComputerSouth)
+    moveIntervalComputerNorth = setInterval(
+      moveComputerBarNorth,
+      setIntervalComputer
+    )
+    console.log(computerSizeAndPosition.y)
+    console.log('computer bar moving top')
+  } else if (ballCenterY > computerBarCenterY) {
+    clearInterval(moveIntervalComputerNorth)
+    moveIntervalComputerSouth = setInterval(
+      moveComputerBarSouth,
+      setIntervalComputer
+    )
+    console.log(computerSizeAndPosition.y)
+    console.log('computer bar moving bottom')
+  }
+}
+
+function moveComputerBarNorth() {
+  updateComputerBarPosition()
+  computerBar.style.top =
+    (computerSizeAndPosition.y - pxDistanceComputerMove).toString() + 'px'
+}
+function moveComputerBarSouth() {
+  updateComputerBarPosition()
+  computerBar.style.top =
+    (computerSizeAndPosition.y + pxDistanceComputerMove).toString() + 'px'
+}
+
+function clearAllTimeout() {
+  timeoutIds.forEach((timeout) => {
+    clearTimeout(timeout)
+  })
+
+  timeoutIds.splice(0, timeoutIds.length)
 }
 
 function updateComputerBarPosition() {
   computerSizeAndPosition = computerBar.getBoundingClientRect()
 
-  let computerBarCenterX =
+  computerBarCenterX =
     computerSizeAndPosition.x + computerSizeAndPosition.width / 2
-  let computerBarCenterY =
+  computerBarCenterY =
     computerSizeAndPosition.y + computerSizeAndPosition.height / 2
 }
 

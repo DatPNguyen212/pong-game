@@ -63,7 +63,6 @@ body {
   position: absolute;
   top: 50%;
   left: calc(100vw - var(--bar-width) - var(--computer-bar-margin-right));
-  transform: translateY(-50%);
   width: var(--bar-width);
   height: var(--bar-height);
   background: var(--secondary-color);
