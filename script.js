@@ -39,7 +39,7 @@ let ballToWhere
 let ballCollideWith
 
 let pxDistanceBallMove = 3
-let setIntervalNumberMs = 10
+let setIntervalNumberMs = 15
 let startingPositionIntervalTop
 let startingPositionIntervalBottom
 
@@ -47,6 +47,12 @@ function generateBallAtRandomY() {
   const randomY = Math.floor(
     Math.random() * (bodySizeAndPosition.height - ballSizeAndPosition.height)
   )
+
+  ball.style.left =
+    (bodySizeAndPosition.width / 2 - ballSizeAndPosition.width / 2).toString() +
+    'px'
+
+  console.log(getComputedStyle(ball).getPropertyValue('left'))
 
   ball.style.top = randomY.toString() + 'px'
 }
@@ -157,14 +163,13 @@ function ifBallCollideLogic() {
     ballCenterY >= playerSizeAndPosition.y &&
     ballCenterY <= playerSizeAndPosition.bottom
   ) {
-    clearInterval(startingPositionIntervalTop)
-    clearInterval(startingPositionIntervalBottom)
-
     ballBounceDirection()
   }
 }
 
 function ballBounceDirection() {
+  clearInterval(startingPositionIntervalTop)
+  clearInterval(startingPositionIntervalBottom)
   if (ballCenterY < playerBarCenterY) {
     setInterval(moveBallNorthEast, setIntervalNumberMs)
     console.log('move ball north east')
