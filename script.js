@@ -40,8 +40,8 @@ let ballCollideWith
 
 let pxDistanceBallMove = 3
 let setIntervalNumberMs = 15
-let startingPositionIntervalTop
-let startingPositionIntervalBottom
+
+const intervalIds = []
 
 function generateBallAtRandomY() {
   const randomY = Math.floor(
@@ -65,16 +65,22 @@ function moveBallFromStartingPosition() {
   const randomTopOrBottom = Math.floor(Math.random() * 2) + 1
 
   if (randomTopOrBottom === 1) {
-    startingPositionIntervalTop = setInterval(
+    const startingPositionIntervalTop = setInterval(
       moveBallNorthWest,
       setIntervalNumberMs
     )
+
+    intervalIds.push(startingPositionIntervalTop)
   } else if (randomTopOrBottom === 2) {
-    startingPositionIntervalBottom = setInterval(
+    const startingPositionIntervalBottom = setInterval(
       moveBallSouthWest,
       setIntervalNumberMs
     )
+
+    intervalIds.push(startingPositionIntervalBottom)
   }
+
+  console.log(intervalIds)
 }
 
 moveBallFromStartingPosition()
@@ -168,18 +174,37 @@ function ifBallCollideLogic() {
 }
 
 function ballBounceDirection() {
-  clearInterval(startingPositionIntervalTop)
-  clearInterval(startingPositionIntervalBottom)
+  clearAllInterval()
+
   if (ballCenterY < playerBarCenterY) {
-    setInterval(moveBallNorthEast, setIntervalNumberMs)
+    const intervalNorthEast = setInterval(
+      moveBallNorthEast,
+      setIntervalNumberMs
+    )
+    intervalIds.push(intervalNorthEast)
     console.log('move ball north east')
   } else if (ballCenterY > playerBarCenterY) {
-    setInterval(moveBallSouthEast, setIntervalNumberMs)
+    const intervalSouthEast = setInterval(
+      moveBallSouthEast,
+      setIntervalNumberMs
+    )
+    intervalIds.push(intervalSouthEast)
     console.log('move ball south east')
   } else if (ballCenterY === playerBarCenterY) {
-    setInterval(moveBallEast, setIntervalNumberMs)
+    const intervalEast = setInterval(moveBallEast, setIntervalNumberMs)
+    intervalIds.push(intervalEast)
     console.log('move ball east')
   }
+}
+
+function clearAllInterval() {
+  intervalIds.forEach((interval) => {
+    clearInterval(interval)
+  })
+
+  intervalIds.splice(0, intervalIds.length)
+
+  console.log(intervalIds)
 }
 
 console.log(ballSizeAndPosition)
