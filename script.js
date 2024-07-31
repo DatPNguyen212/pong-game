@@ -82,7 +82,7 @@ function moveBallFromStartingPosition() {
     intervalIds.push(startingPositionIntervalBottom)
   }
 
-  console.log(intervalIds)
+  // console.log(intervalIds)
 }
 
 moveBallFromStartingPosition()
@@ -179,18 +179,34 @@ function ifBallCollideLogic() {
   } else if (ballSizeAndPosition.y <= bodySizeAndPosition.y) {
     if (ballCurrentDirection === 'right') {
       clearAllInterval()
-      setInterval(moveBallSouthEast, setIntervalNumberMs)
+      const intervalBounceTopBody1 = setInterval(
+        moveBallSouthEast,
+        setIntervalNumberMs
+      )
+      intervalIds.push(intervalBounceTopBody1)
     } else if (ballCurrentDirection === 'left') {
       clearAllInterval()
-      setInterval(moveBallSouthWest, setIntervalNumberMs)
+      const intervalBounceTopBody2 = setInterval(
+        moveBallSouthWest,
+        setIntervalNumberMs
+      )
+      intervalIds.push(intervalBounceTopBody2)
     }
   } else if (ballSizeAndPosition.bottom >= bodySizeAndPosition.bottom) {
     if (ballCurrentDirection === 'right') {
       clearAllInterval()
-      setInterval(moveBallNorthEast, setIntervalNumberMs)
+      const intervalBounceBottomBody1 = setInterval(
+        moveBallNorthEast,
+        setIntervalNumberMs
+      )
+      intervalIds.push(intervalBounceBottomBody1)
     } else if (ballCurrentDirection === 'left') {
       clearAllInterval()
-      setInterval(moveBallNorthWest, setIntervalNumberMs)
+      const intervalBounceBottomBody2 = setInterval(
+        moveBallNorthWest,
+        setIntervalNumberMs
+      )
+      intervalIds.push(intervalBounceBottomBody2)
     }
   }
 }
@@ -198,23 +214,24 @@ function ifBallCollideLogic() {
 function ballBounceFromPlayer() {
   clearAllInterval()
 
+  console.log('bouncing')
   if (ballCenterY < playerBarCenterY) {
-    const intervalNorthEast = setInterval(
+    const intervalBouncePlayer1 = setInterval(
       moveBallNorthEast,
       setIntervalNumberMs
     )
-    intervalIds.push(intervalNorthEast)
+    intervalIds.push(intervalBouncePlayer1)
     console.log('move ball north east')
   } else if (ballCenterY > playerBarCenterY) {
-    const intervalSouthEast = setInterval(
+    const intervalBouncePlayer2 = setInterval(
       moveBallSouthEast,
       setIntervalNumberMs
     )
-    intervalIds.push(intervalSouthEast)
+    intervalIds.push(intervalBouncePlayer2)
     console.log('move ball south east')
   } else if (ballCenterY === playerBarCenterY) {
-    const intervalEast = setInterval(moveBallEast, setIntervalNumberMs)
-    intervalIds.push(intervalEast)
+    const intervalBouncePlayer3 = setInterval(moveBallEast, setIntervalNumberMs)
+    intervalIds.push(intervalBouncePlayer3)
     console.log('move ball east')
   }
 }
@@ -226,7 +243,7 @@ function clearAllInterval() {
 
   intervalIds.splice(0, intervalIds.length)
 
-  console.log(intervalIds)
+  // console.log(intervalIds)
 }
 
 console.log(ballSizeAndPosition)
