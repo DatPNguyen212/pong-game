@@ -20,9 +20,9 @@ let playerBarCenterY =
 let playerBarHitBoxX = playerSizeAndPosition.x + playerSizeAndPosition.width
 
 let computerBarCenterX =
-  bodySizeAndPosition.width - computerSizeAndPosition.width / 2
+  computerSizeAndPosition.x + computerSizeAndPosition.width / 2
 let computerBarCenterY =
-  computerSizeAndPosition.bottom - computerSizeAndPosition.height / 2
+  computerSizeAndPosition.y + computerSizeAndPosition.height / 2
 
 // topplayerHitBoxYTop    playerPostion.top to playerCenterY
 // topPlayerHitBoxBottom playerCenterY to playerPositionBottom
@@ -258,10 +258,10 @@ function moveComputerBar() {
 function updateComputerBarPosition() {
   computerSizeAndPosition = computerBar.getBoundingClientRect()
 
-  computerBarCenterX =
-    bodySizeAndPosition.width - computerSizeAndPosition.width / 2
-  computerBarCenterY =
-    computerSizeAndPosition.bottom - computerSizeAndPosition.height / 2
+  let computerBarCenterX =
+    computerSizeAndPosition.x + computerSizeAndPosition.width / 2
+  let computerBarCenterY =
+    computerSizeAndPosition.y + computerSizeAndPosition.height / 2
 }
 
 console.log(ballSizeAndPosition)
