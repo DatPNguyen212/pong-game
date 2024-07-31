@@ -19,6 +19,11 @@ let playerBarCenterY =
 
 let playerBarHitBoxX = playerSizeAndPosition.x + playerSizeAndPosition.width
 
+let computerBarCenterX =
+  bodySizeAndPosition.width - computerSizeAndPosition.width / 2
+let computerBarCenterY =
+  computerSizeAndPosition.bottom - computerSizeAndPosition.height / 2
+
 // topplayerHitBoxYTop    playerPostion.top to playerCenterY
 // topPlayerHitBoxBottom playerCenterY to playerPositionBottom
 
@@ -244,6 +249,19 @@ function clearAllInterval() {
   intervalIds.splice(0, intervalIds.length)
 
   // console.log(intervalIds)
+}
+
+function moveComputerBar() {
+  updateBallPosition()
+}
+
+function updateComputerBarPosition() {
+  computerSizeAndPosition = computerBar.getBoundingClientRect()
+
+  computerBarCenterX =
+    bodySizeAndPosition.width - computerSizeAndPosition.width / 2
+  computerBarCenterY =
+    computerSizeAndPosition.bottom - computerSizeAndPosition.height / 2
 }
 
 console.log(ballSizeAndPosition)
