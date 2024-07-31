@@ -9,27 +9,39 @@ const ball = document.querySelector('[data-ball]')
 const body = document.querySelector('body')
 const bodySizeAndPosition = body.getBoundingClientRect()
 
-const playerSizeAndPosition = playerBar.getBoundingClientRect()
-const computerSizeAndPosition = computerBar.getBoundingClientRect()
+let playerSizeAndPosition = playerBar.getBoundingClientRect()
+let computerSizeAndPosition = computerBar.getBoundingClientRect()
 
-const playerBarCenterX =
-  playerSizeAndPosition.width / 2 + playerSizeAndPosition.x
+let playerBarCenterX = playerSizeAndPosition.width / 2 + playerSizeAndPosition.x
 
-const playerBarCenterY =
+let playerBarCenterY =
   playerSizeAndPosition.height / 2 + playerSizeAndPosition.y
+
+let playerBarHitBoxX = playerSizeAndPosition.x + playerSizeAndPosition.width
+
+// topplayerHitBoxYTop    playerPostion.top to playerCenterY
+// topPlayerHitBoxBottom playerCenterY to playerPositionBottom
 
 body.addEventListener('mousemove', (event) => {
   const mouseY = event.pageY
   playerBar.style.top = mouseY.toString() + 'px'
+
+  updatePlayerBarPosition()
 })
 
 let ballSizeAndPosition = ball.getBoundingClientRect()
 
-const ballCenterX = ballSizeAndPosition.width / 2 + ballSizeAndPosition.x
-const ballCenterY = ballSizeAndPosition.height / 2 + ballSizeAndPosition.y
+let ballCenterX = ballSizeAndPosition.width / 2 + ballSizeAndPosition.x
+let ballCenterY = ballSizeAndPosition.height / 2 + ballSizeAndPosition.y
+
+let ballFromWhere
+let ballToWhere
+let ballCollideWith
 
 let pxDistanceBallMove = 3
-let setIntervalNumberMs = 30
+let setIntervalNumberMs = 10
+let startingPositionIntervalTop
+let startingPositionIntervalBottom
 
 function generateBallAtRandomY() {
   const randomY = Math.floor(
@@ -41,52 +53,128 @@ function generateBallAtRandomY() {
 
 generateBallAtRandomY()
 
-const randomTopOrBottom = Math.floor(Math.random() * 2) + 1
-
 function moveBallFromStartingPosition() {
-  ballSizeAndPosition = ball.getBoundingClientRect()
+  updateBallPosition()
+
+  const randomTopOrBottom = Math.floor(Math.random() * 2) + 1
 
   if (randomTopOrBottom === 1) {
-    setInterval(moveBallNorthWest, setIntervalNumberMs)
+    startingPositionIntervalTop = setInterval(
+      moveBallNorthWest,
+      setIntervalNumberMs
+    )
   } else if (randomTopOrBottom === 2) {
-    setInterval(moveBallSouthWest, setIntervalNumberMs)
+    startingPositionIntervalBottom = setInterval(
+      moveBallSouthWest,
+      setIntervalNumberMs
+    )
   }
 }
 
 moveBallFromStartingPosition()
 
 function moveBallNorthWest() {
-  ballSizeAndPosition = ball.getBoundingClientRect()
+  updateBallPosition()
   ball.style.left =
     (ballSizeAndPosition.x - pxDistanceBallMove).toString() + 'px'
 
   ball.style.top =
     (ballSizeAndPosition.y - pxDistanceBallMove).toString() + 'px'
+
+  ifBallCollideLogic()
 }
 function moveBallSouthWest() {
-  ballSizeAndPosition = ball.getBoundingClientRect()
+  updateBallPosition()
   ball.style.left =
     (ballSizeAndPosition.x - pxDistanceBallMove).toString() + 'px'
 
   ball.style.top =
     (ballSizeAndPosition.y + pxDistanceBallMove).toString() + 'px'
+
+  ifBallCollideLogic()
 }
 
 function moveBallNorthEast() {
-  ballSizeAndPosition = ball.getBoundingClientRect()
+  updateBallPosition()
   ball.style.left =
     (ballSizeAndPosition.x + pxDistanceBallMove).toString() + 'px'
 
   ball.style.top =
     (ballSizeAndPosition.y - pxDistanceBallMove).toString() + 'px'
+
+  // console.log(ballSizeAndPosition.x, ballSizeAndPosition.y)
+  ifBallCollideLogic()
 }
 function moveBallSouthEast() {
-  ballSizeAndPosition = ball.getBoundingClientRect()
+  updateBallPosition()
   ball.style.left =
     (ballSizeAndPosition.x + pxDistanceBallMove).toString() + 'px'
 
   ball.style.top =
     (ballSizeAndPosition.y + pxDistanceBallMove).toString() + 'px'
+  // console.log(ballSizeAndPosition.x, ballSizeAndPosition.y)
+  ifBallCollideLogic()
+}
+
+function moveBallEast() {
+  updateBallPosition()
+
+  ball.style.left =
+    (ballSizeAndPosition.x + pxDistanceBallMove).toString() + 'px'
+  ifBallCollideLogic()
+}
+
+function moveBallWest() {
+  updateBallPosition()
+
+  ball.style.left =
+    (ballSizeAndPosition.x - pxDistanceBallMove).toString() + 'px'
+  ifBallCollideLogic()
+}
+
+function updateBallPosition() {
+  ballSizeAndPosition = ball.getBoundingClientRect()
+
+  ballCenterX = ballSizeAndPosition.width / 2 + ballSizeAndPosition.x
+  ballCenterY = ballSizeAndPosition.height / 2 + ballSizeAndPosition.y
+}
+
+function updatePlayerBarPosition() {
+  playerSizeAndPosition = playerBar.getBoundingClientRect()
+
+  playerBarCenterX = playerSizeAndPosition.width / 2 + playerSizeAndPosition.x
+
+  playerBarCenterY = playerSizeAndPosition.height / 2 + playerSizeAndPosition.y
+
+  playerBarHitBoxX = playerSizeAndPosition.x + playerSizeAndPosition.width
+}
+
+function ifBallCollideLogic() {
+  updateBallPosition()
+
+  if (
+    ballSizeAndPosition.x <= playerBarHitBoxX &&
+    ballCenterY >= playerSizeAndPosition.y &&
+    ballCenterY <= playerSizeAndPosition.bottom
+  ) {
+    clearInterval(startingPositionIntervalTop)
+    clearInterval(startingPositionIntervalBottom)
+
+    ballBounceDirection()
+  }
+}
+
+function ballBounceDirection() {
+  if (ballCenterY < playerBarCenterY) {
+    setInterval(moveBallNorthEast, setIntervalNumberMs)
+    console.log('move ball north east')
+  } else if (ballCenterY > playerBarCenterY) {
+    setInterval(moveBallSouthEast, setIntervalNumberMs)
+    console.log('move ball south east')
+  } else if (ballCenterY === playerBarCenterY) {
+    setInterval(moveBallEast, setIntervalNumberMs)
+    console.log('move ball east')
+  }
 }
 
 console.log(ballSizeAndPosition)
