@@ -24,6 +24,10 @@ let computerBarCenterX =
 let computerBarCenterY =
   computerSizeAndPosition.y + computerSizeAndPosition.height / 2
 
+computerBar.style.top =
+  (computerSizeAndPosition.y - computerSizeAndPosition.height / 2).toString() +
+  'px'
+
 // topplayerHitBoxYTop    playerPostion.top to playerCenterY
 // topPlayerHitBoxBottom playerCenterY to playerPositionBottom
 
@@ -191,6 +195,7 @@ function ifBallCollideLogic() {
     ballCenterY <= playerSizeAndPosition.bottom
   ) {
     isBallHitByPlayer = true
+    isBallHitByComputer = false
     ballCurrentDirection = 'right'
 
     console.log('hit')
@@ -227,6 +232,17 @@ function ifBallCollideLogic() {
       )
       intervalIds.push(intervalBounceBottomBody2)
     }
+  } else if (
+    ballSizeAndPosition.right >= computerSizeAndPosition.left &&
+    ballCenterY >= computerSizeAndPosition.y &&
+    ballCenterY <= computerSizeAndPosition.bottom
+  ) {
+    isBallHitByComputer = true
+    isBallHitByPlayer = false
+    ballCurrentDirection = 'left'
+    console.log('Collided with computer bar')
+
+    ballBounceFromComputer()
   }
 }
 
@@ -255,6 +271,31 @@ function ballBounceFromPlayer() {
   }
 }
 
+function ballBounceFromComputer() {
+  clearAllInterval()
+  console.log('bouncing')
+
+  if (ballCenterY < computerBarCenterY) {
+    const intervalBounceComputer1 = setInterval(
+      moveBallNorthWest,
+      setIntervalNumberMs
+    )
+    intervalIds.push(intervalBounceComputer1)
+  } else if (ballCenterY > computerBarCenterY) {
+    const intervalBounceComputer2 = setInterval(
+      moveBallSouthWest,
+      setIntervalNumberMs
+    )
+    intervalIds.push(intervalBounceComputer2)
+  } else if (ballCenterY === computerBarCenterY) {
+    const intervalBounceComputer3 = setInterval(
+      moveBallWest,
+      setIntervalNumberMs
+    )
+    intervalIds.push(intervalBounceComputer3)
+  }
+}
+
 function clearAllInterval() {
   intervalIds.forEach((interval) => {
     clearInterval(interval)
@@ -268,21 +309,24 @@ function clearAllInterval() {
 function moveComputerBar() {
   updateBallPosition()
   updateComputerBarPosition()
+  console.log(timeoutIds)
 
   if (ballCenterY < computerBarCenterY) {
-    clearAllTimeout()
     moveTimeoutComputerNorth = setTimeout(
       moveComputerBarNorth,
       setTimeoutComputer
     )
+
+    timeoutIds.push(moveTimeoutComputerNorth)
     console.log(computerSizeAndPosition.y)
     console.log('computer bar moving top')
   } else if (ballCenterY > computerBarCenterY) {
-    clearAllTimeout()
     moveTimeoutComputerSouth = setTimeout(
       moveComputerBarSouth,
       setTimeoutComputer
     )
+    timeoutIds.push(moveTimeoutComputerSouth)
+
     console.log(computerSizeAndPosition.y)
     console.log('computer bar moving bottom')
   } else {
