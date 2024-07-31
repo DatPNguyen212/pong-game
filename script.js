@@ -49,10 +49,10 @@ let setIntervalNumberMs = 15
 
 // distance and interval for computer bar
 let pxDistanceComputerMove = 3
-let setIntervalComputer = 15
+let setTimeoutComputer = 50
 
-let moveIntervalComputerNorth
-let moveIntervalComputerSouth
+let moveTimeoutComputerNorth
+let moveTimeoutComputerSouth
 
 const intervalIds = []
 const timeoutIds = []
@@ -270,21 +270,23 @@ function moveComputerBar() {
   updateComputerBarPosition()
 
   if (ballCenterY < computerBarCenterY) {
-    clearInterval(moveIntervalComputerSouth)
-    moveIntervalComputerNorth = setInterval(
+    clearAllTimeout()
+    moveTimeoutComputerNorth = setTimeout(
       moveComputerBarNorth,
-      setIntervalComputer
+      setTimeoutComputer
     )
     console.log(computerSizeAndPosition.y)
     console.log('computer bar moving top')
   } else if (ballCenterY > computerBarCenterY) {
-    clearInterval(moveIntervalComputerNorth)
-    moveIntervalComputerSouth = setInterval(
+    clearAllTimeout()
+    moveTimeoutComputerSouth = setTimeout(
       moveComputerBarSouth,
-      setIntervalComputer
+      setTimeoutComputer
     )
     console.log(computerSizeAndPosition.y)
     console.log('computer bar moving bottom')
+  } else {
+    clearAllTimeout()
   }
 }
 
