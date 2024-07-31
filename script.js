@@ -34,9 +34,9 @@ let ballSizeAndPosition = ball.getBoundingClientRect()
 let ballCenterX = ballSizeAndPosition.width / 2 + ballSizeAndPosition.x
 let ballCenterY = ballSizeAndPosition.height / 2 + ballSizeAndPosition.y
 
-let ballFromWhere
-let ballToWhere
-let ballCollideWith
+let ballCurrentDirection
+let isBallHitByPlayer
+let isBallHitByComputer
 
 let pxDistanceBallMove = 3
 let setIntervalNumberMs = 15
@@ -69,6 +69,7 @@ function moveBallFromStartingPosition() {
       moveBallNorthWest,
       setIntervalNumberMs
     )
+    ballCurrentDirection = 'left'
 
     intervalIds.push(startingPositionIntervalTop)
   } else if (randomTopOrBottom === 2) {
@@ -77,6 +78,7 @@ function moveBallFromStartingPosition() {
       setIntervalNumberMs
     )
 
+    ballCurrentDirection = 'left'
     intervalIds.push(startingPositionIntervalBottom)
   }
 
@@ -169,11 +171,31 @@ function ifBallCollideLogic() {
     ballCenterY >= playerSizeAndPosition.y &&
     ballCenterY <= playerSizeAndPosition.bottom
   ) {
-    ballBounceDirection()
+    isBallHitByPlayer = true
+    ballCurrentDirection = 'right'
+
+    console.log('hit')
+    ballBounceFromPlayer()
+  } else if (ballSizeAndPosition.y <= bodySizeAndPosition.y) {
+    if (ballCurrentDirection === 'right') {
+      clearAllInterval()
+      setInterval(moveBallSouthEast, setIntervalNumberMs)
+    } else if (ballCurrentDirection === 'left') {
+      clearAllInterval()
+      setInterval(moveBallSouthWest, setIntervalNumberMs)
+    }
+  } else if (ballSizeAndPosition.bottom >= bodySizeAndPosition.bottom) {
+    if (ballCurrentDirection === 'right') {
+      clearAllInterval()
+      setInterval(moveBallNorthEast, setIntervalNumberMs)
+    } else if (ballCurrentDirection === 'left') {
+      clearAllInterval()
+      setInterval(moveBallNorthWest, setIntervalNumberMs)
+    }
   }
 }
 
-function ballBounceDirection() {
+function ballBounceFromPlayer() {
   clearAllInterval()
 
   if (ballCenterY < playerBarCenterY) {
