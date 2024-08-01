@@ -16,6 +16,21 @@ const allPopupComputerScores = document.querySelectorAll(
   '[data-popup-computer-score]'
 )
 
+const allPlayAgainButton = document.querySelectorAll('[data-play-again-button]')
+const allCloseGameButton = document.querySelectorAll('[data-close-button]')
+
+allPlayAgainButton.forEach((playAgainButton) => {
+  playAgainButton.addEventListener('click', (event) => {
+    location.reload()
+  })
+})
+
+allCloseGameButton.forEach((closeButton) => {
+  closeButton.addEventListener('click', (event) => {
+    window.close()
+  })
+})
+
 let playerSizeAndPosition = playerBar.getBoundingClientRect()
 let computerSizeAndPosition = computerBar.getBoundingClientRect()
 
