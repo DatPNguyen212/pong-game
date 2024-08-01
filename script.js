@@ -53,7 +53,7 @@ let setIntervalNumberMs = 15
 
 // distance and interval for computer bar
 let pxDistanceComputerMove = 3
-let setTimeoutComputer = 115
+let setTimeoutComputer = 105
 
 let moveTimeoutComputerNorth
 let moveTimeoutComputerSouth
@@ -254,12 +254,12 @@ function ifBallCollideLogic() {
     ballBounceFromComputer()
   } else if (ballSizeAndPosition.left <= bodySizeAndPosition.left) {
     computerScoreNum += 1
-    generateBallAtRandomY()
     updateScoreBoard()
+    generateBallAtRandomY()
   } else if (ballSizeAndPosition.right >= bodySizeAndPosition.right) {
     playerScoreNum += 1
-    generateBallAtRandomY()
     updateScoreBoard()
+    generateBallAtRandomY()
   }
 }
 
