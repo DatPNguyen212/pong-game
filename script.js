@@ -52,7 +52,7 @@ let pxDistanceBallMove = 3
 let setIntervalNumberMs = 15
 
 // distance and interval for computer bar
-let pxDistanceComputerMove = 3
+let pxDistanceComputerMove = 6
 let setTimeoutComputer = 0.5
 
 let moveTimeoutComputerNorth
@@ -65,6 +65,7 @@ const intervalIds = []
 const timeoutIds = []
 
 function generateBallAtRandomY() {
+  pxDistanceBallMove = 3
   const randomY = Math.floor(
     Math.random() * (bodySizeAndPosition.height - ballSizeAndPosition.height)
   )
@@ -208,6 +209,7 @@ function ifBallCollideLogic() {
     ballCurrentDirection = 'right'
 
     console.log('hit')
+    increaseBallSpeed()
     ballBounceFromPlayer()
   } else if (ballSizeAndPosition.y <= bodySizeAndPosition.y) {
     if (ballCurrentDirection === 'right') {
@@ -250,7 +252,7 @@ function ifBallCollideLogic() {
     isBallHitByPlayer = false
     ballCurrentDirection = 'left'
     console.log('Collided with computer bar')
-
+    increaseBallSpeed()
     ballBounceFromComputer()
   } else if (ballSizeAndPosition.left <= bodySizeAndPosition.left) {
     computerScoreNum += 1
