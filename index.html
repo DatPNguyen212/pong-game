@@ -8,11 +8,9 @@
     <script defer src="./script.js"></script>
   </head>
   <body>
-    <div class="score-container">
-      <span data-player-score class="player-score">0</span>
-      <span class="score-divider">&#124; </span>
-      <span data-computer-score class="computer-score">0</span>
-    </div>
+    <span data-player-score class="player-score">0</span>
+    <!-- <span class="score-divider">&#124; </span> -->
+    <span data-computer-score class="computer-score">0</span>
 
     <div data-ball class="ball"></div>
     <div class="screen-divider"></div>
@@ -20,17 +18,42 @@
     <div data-computer-bar class="computer-bar"></div>
 
     <div data-player-win-container class="player-win-container">
-      <h1>Player wins</h1>
-      <button data-play-again-button>Play again</button>
-      <button data-close-button>Close Tab</button>
+      <h1 class="player-win-heading">Player wins</h1>
+
+      <div class="button-container">
+        <button data-play-again-button class="button">Play again</button>
+        <button data-close-button class="button">Close Game</button>
+      </div>
+
+      <div class="popup-score-container">
+        <div class="popup-player-score-container">
+          <span>Player:</span> <span data-popup-player-score>0</span>
+        </div>
+
+        <div class="popup-computer-score-container">
+          <span>Computer:</span> <span data-popup-computer-score>0</span>
+        </div>
+      </div>
     </div>
 
     <div data-computer-win-container class="computer-win-container">
-      <h1>Computer wins</h1>
-      <button data-play-again-button>Play again</button>
-      <button data-close-button>Close Tab</button>
+      <h1 class="computer-win-heading">Computer wins</h1>
+      <div class="button-container">
+        <button data-play-again-button class="button">Play again</button>
+        <button data-close-button class="button">Close Game</button>
+      </div>
+
+      <div class="popup-score-container">
+        <div class="popup-player-score-container">
+          <span>Player:</span> <span data-popup-player-score>0</span>
+        </div>
+
+        <div class="popup-computer-score-container">
+          <span>Computer:</span> <span data-popup-computer-score>0</span>
+        </div>
+      </div>
     </div>
 
-    <div data-overlay class="overlay"></div>
+    <div data-overlay class="overlay active"></div>
   </body>
 </html>

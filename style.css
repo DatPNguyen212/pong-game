@@ -15,6 +15,7 @@
   --bar-width: 10px;
   --player-bar-margin-left: 10px;
   --computer-bar-margin-right: 10px;
+  --score-font-size: 2.5rem;
 }
 
 body {
@@ -31,14 +32,25 @@ body {
   font-size: var(--scrore-font-size);
 }
 
-.player-score,
-.computer-score {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.player-score {
+  position: absolute;
+  left: 25%;
+  font-size: var(--score-font-size);
+  transform: translateX(-50%);
+  color: var(--secondary-color);
+  pointer-events: none;
 }
 
-.score-container {
+.computer-score {
+  position: absolute;
+  left: 75%;
+  font-size: var(--score-font-size);
+  transform: translateX(-50%);
+  color: var(--secondary-color);
+  pointer-events: none;
+}
+
+/* .score-container {
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
@@ -47,7 +59,7 @@ body {
   align-items: center;
   font-size: var(--scrore-font-size);
   color: var(--font-color);
-}
+} */
 
 .player-bar {
   position: absolute;
@@ -85,4 +97,98 @@ body {
   background: var(--secondary-color);
   border-radius: 50%;
   position: absolute;
+}
+
+.player-win-container,
+.computer-win-container {
+  position: fixed;
+  width: 300px;
+  padding: 20px;
+  background: var(--secondary-color);
+  border-radius: 0.5rem;
+  padding-top: 20px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.player-win-container {
+  left: 25%;
+  top: 25%;
+  transform: translateX(-50%);
+}
+
+.computer-win-container {
+  position: fixed;
+  left: 75%;
+  top: 25%;
+  transform: translateX(-50%);
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.button {
+  position: relative;
+  padding: 10px 20px;
+  border-radius: 0.5rem;
+  border: 2px solid black;
+  cursor: pointer;
+  background: white;
+  box-shadow: 0px 2px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  z-index: 0;
+  font-weight: bold;
+}
+
+.button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: yellow;
+  z-index: -1;
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.button:hover::before {
+  transform: translateX(0);
+}
+
+.player-win-heading,
+.computer-win-heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 760px) {
+  .player-win-container,
+  .computer-win-container {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+}
+
+.overlay.active {
+  display: initial;
 }

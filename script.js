@@ -9,6 +9,13 @@ const ball = document.querySelector('[data-ball]')
 const body = document.querySelector('body')
 const bodySizeAndPosition = body.getBoundingClientRect()
 
+const allPopupPlayerScores = document.querySelectorAll(
+  '[data-popup-player-score]'
+)
+const allPopupComputerScores = document.querySelectorAll(
+  '[data-popup-computer-score]'
+)
+
 let playerSizeAndPosition = playerBar.getBoundingClientRect()
 let computerSizeAndPosition = computerBar.getBoundingClientRect()
 
