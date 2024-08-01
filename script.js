@@ -275,6 +275,14 @@ function ifBallCollideLogic() {
 function updateScoreBoard() {
   playerScore.textContent = playerScoreNum.toString()
   computerScore.textContent = computerScoreNum.toString()
+
+  allPopupPlayerScores.forEach((playerElement) => {
+    playerElement.textContent = playerScoreNum.toString()
+  })
+
+  allPopupComputerScores.forEach((computerElement) => {
+    computerElement.textContent = computerScoreNum.toString()
+  })
 }
 
 function ballBounceFromPlayer() {

@@ -116,14 +116,14 @@ body {
 
 .player-win-container {
   left: 25%;
-  top: 25%;
+  top: 30%;
   transform: translateX(-50%);
 }
 
 .computer-win-container {
   position: fixed;
   left: 75%;
-  top: 25%;
+  top: 30%;
   transform: translateX(-50%);
 }
 
