@@ -53,7 +53,7 @@ let setIntervalNumberMs = 15
 
 // distance and interval for computer bar
 let pxDistanceComputerMove = 3
-let setTimeoutComputer = 105
+let setTimeoutComputer = 0.5
 
 let moveTimeoutComputerNorth
 let moveTimeoutComputerSouth
@@ -382,6 +382,10 @@ function updateComputerBarPosition() {
     computerSizeAndPosition.x + computerSizeAndPosition.width / 2
   computerBarCenterY =
     computerSizeAndPosition.y + computerSizeAndPosition.height / 2
+}
+
+function increaseBallSpeed() {
+  pxDistanceBallMove += 0.5
 }
 
 console.log(ballSizeAndPosition)
