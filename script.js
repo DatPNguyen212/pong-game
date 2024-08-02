@@ -7,7 +7,7 @@ const computerBar = document.querySelector('[data-computer-bar]')
 const ball = document.querySelector('[data-ball]')
 
 const body = document.querySelector('body')
-const bodySizeAndPosition = body.getBoundingClientRect()
+let bodySizeAndPosition = body.getBoundingClientRect()
 
 const playerWinContainer = document.querySelector('[data-player-win-container]')
 const computerWinContainer = document.querySelector(
@@ -235,6 +235,7 @@ function updatePlayerBarPosition() {
 
 function ifBallCollideLogic() {
   updateBallPosition()
+  updateBodySizeAndPosition()
 
   if (
     ballSizeAndPosition.x <= playerBarHitBoxX &&
@@ -501,6 +502,10 @@ function resetGameState() {
 function stopAllMovement() {
   clearAllInterval()
   clearAllTimeout()
+}
+
+function updateBodySizeAndPosition() {
+  bodySizeAndPosition = body.getBoundingClientRect()
 }
 
 function gameInit() {
