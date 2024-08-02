@@ -50,17 +50,6 @@ body {
   pointer-events: none;
 }
 
-/* .score-container {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: var(--scrore-font-size);
-  color: var(--font-color);
-} */
-
 .player-bar {
   position: absolute;
   top: 50%;
@@ -187,6 +176,7 @@ body {
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
+  z-index: 9;
 }
 
 .player-win-container.active,
@@ -196,4 +186,52 @@ body {
 
 .overlay.active {
   opacity: 1;
+}
+
+.infinite-mode-toggle-container {
+  position: fixed;
+  top: -10px;
+  left: 5px;
+}
+
+#infinite-mode-input {
+  appearance: none;
+}
+
+#infinite-mode-input + .infinite-mode-label {
+  --infinite-mode-label-font-size: 16px;
+  --infinite-mode-label-color: hsl(100, 90%, 50%);
+  --infinite-mode-toggle-background: rgba(0, 0, 0, 0.5);
+  --infinite-mode-toggle-circle-background: white;
+
+  color: var(--infinite-mode-label-color);
+  font-size: var(--infinite-mode-label-font-size);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+}
+
+#infinite-mode-input + .infinite-mode-label::before {
+  content: '';
+  width: calc(2.5 * var(--infinite-mode-label-font-size));
+  height: calc(1 * var(--infinite-mode-label-font-size));
+  background: var(--infinite-mode-toggle-background);
+  border-radius: 99999999px;
+}
+
+#infinite-mode-input + .infinite-mode-label::after {
+  content: '';
+  width: calc(0.8 * var(--infinite-mode-label-font-size));
+  aspect-ratio: 1;
+  background: var(--infinite-mode-toggle-circle-background);
+  border-radius: 50%;
+  position: absolute;
+  left: calc(0.25 * var(--infinite-mode-label-font-size));
+  transition: left 0.2s ease;
+}
+
+#infinite-mode-input:checked + .infinite-mode-label::after {
+  left: calc(0.75 * 2.5 * var(--infinite-mode-label-font-size));
+  transform: translateX(-50%);
 }
