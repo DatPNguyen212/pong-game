@@ -9,6 +9,12 @@ const ball = document.querySelector('[data-ball]')
 const body = document.querySelector('body')
 const bodySizeAndPosition = body.getBoundingClientRect()
 
+const playerWinContainer = document.querySelector('[data-player-win-container]')
+const computerWinContainer = document.querySelector(
+  '[data-computer-win-container]'
+)
+const overlay = document.querySelector('[data-overlay]')
+
 const allPopupPlayerScores = document.querySelectorAll(
   '[data-popup-player-score]'
 )
@@ -17,7 +23,9 @@ const allPopupComputerScores = document.querySelectorAll(
 )
 
 const allPlayAgainButton = document.querySelectorAll('[data-play-again-button]')
-const allCloseGameButton = document.querySelectorAll('[data-close-button]')
+const allInfiniteModeButton = document.querySelectorAll(
+  '[data-infinite-button]'
+)
 
 allPlayAgainButton.forEach((playAgainButton) => {
   playAgainButton.addEventListener('click', (event) => {
@@ -25,9 +33,11 @@ allPlayAgainButton.forEach((playAgainButton) => {
   })
 })
 
-allCloseGameButton.forEach((closeButton) => {
-  closeButton.addEventListener('click', (event) => {
-    window.close()
+allInfiniteModeButton.forEach((infiniteButton) => {
+  infiniteButton.addEventListener('click', (event) => {
+    playerWinContainer.classList.remove('active')
+    computerWinContainer.classList.remove('active')
+    overlay.classList.remove('active')
   })
 })
 
@@ -82,6 +92,9 @@ let moveTimeoutComputerSouth
 
 let playerScoreNum = 0
 let computerScoreNum = 0
+
+const numberOfRoundsToWin = 5
+let isPlayerWin
 
 const intervalIds = []
 const timeoutIds = []
@@ -418,6 +431,21 @@ function updateComputerBarPosition() {
 
 function increaseBallSpeed() {
   pxDistanceBallMove += 0.5
+}
+
+function checkPlayerWin() {
+  if (playerScoreNum === numberOfRoundsToWin) {
+    isPlayerWin = true
+    playerWinContainer.classList.add('active')
+  } else if (playerScoreNum === numberOfRoundsToWin) {
+    isPlayerWin = false
+    computerWinContainer.classList.add('active')
+  }
+}
+
+function stopAllMovement() {
+  clearAllInterval()
+  clearAllTimeout()
 }
 
 console.log(ballSizeAndPosition)

@@ -112,19 +112,18 @@ body {
   flex-direction: column;
   justify-content: center;
   gap: 10px;
+  transform: translateX(-50%) scale(0);
+  transition: transform 0.3s ease;
 }
 
 .player-win-container {
   left: 25%;
   top: 30%;
-  transform: translateX(-50%);
 }
 
 .computer-win-container {
-  position: fixed;
   left: 75%;
   top: 30%;
-  transform: translateX(-50%);
 }
 
 .button-container {
@@ -175,7 +174,6 @@ body {
   .player-win-container,
   .computer-win-container {
     left: 50%;
-    transform: translateX(-50%);
   }
 }
 
@@ -187,6 +185,11 @@ body {
   bottom: 0;
   background: rgba(0, 0, 0, 0.6);
   display: none;
+}
+
+.player-win-container.active,
+.computer-win-container.active {
+  transform: translateX(-50%) scale(1);
 }
 
 .overlay.active {
