@@ -27,20 +27,6 @@ const allInfiniteModeButton = document.querySelectorAll(
   '[data-infinite-button]'
 )
 
-allPlayAgainButton.forEach((playAgainButton) => {
-  playAgainButton.addEventListener('click', (event) => {
-    location.reload()
-  })
-})
-
-allInfiniteModeButton.forEach((infiniteButton) => {
-  infiniteButton.addEventListener('click', (event) => {
-    playerWinContainer.classList.remove('active')
-    computerWinContainer.classList.remove('active')
-    overlay.classList.remove('active')
-  })
-})
-
 let playerSizeAndPosition = playerBar.getBoundingClientRect()
 let computerSizeAndPosition = computerBar.getBoundingClientRect()
 
@@ -62,13 +48,6 @@ computerBar.style.top =
 
 // topplayerHitBoxYTop    playerPostion.top to playerCenterY
 // topPlayerHitBoxBottom playerCenterY to playerPositionBottom
-
-body.addEventListener('mousemove', (event) => {
-  const mouseY = event.pageY
-  playerBar.style.top = mouseY.toString() + 'px'
-
-  updatePlayerBarPosition()
-})
 
 let ballSizeAndPosition = ball.getBoundingClientRect()
 
@@ -96,8 +75,35 @@ let computerScoreNum = 0
 const numberOfRoundsToWin = 5
 let isPlayerWin
 
+let isInfiniteMode = false
+
 const intervalIds = []
 const timeoutIds = []
+
+allPlayAgainButton.forEach((playAgainButton) => {
+  playAgainButton.addEventListener('click', (event) => {
+    location.reload()
+  })
+})
+
+allInfiniteModeButton.forEach((infiniteButton) => {
+  infiniteButton.addEventListener('click', (event) => {
+    playerWinContainer.classList.remove('active')
+    computerWinContainer.classList.remove('active')
+    overlay.classList.remove('active')
+    isInfiniteMode = true
+    gameInit()
+  })
+})
+
+body.addEventListener('mousemove', (event) => {
+  const mouseY = event.pageY
+  playerBar.style.top = mouseY.toString() + 'px'
+
+  updatePlayerBarPosition()
+})
+
+gameInit()
 
 function generateBallAtRandomY() {
   pxDistanceBallMove = 3
@@ -109,7 +115,7 @@ function generateBallAtRandomY() {
     (bodySizeAndPosition.width / 2 - ballSizeAndPosition.width / 2).toString() +
     'px'
 
-  console.log(getComputedStyle(ball).getPropertyValue('left'))
+  // console.log(getComputedStyle(ball).getPropertyValue('left'))
 
   ball.style.top = randomY.toString() + 'px'
 
@@ -119,8 +125,6 @@ function generateBallAtRandomY() {
       computerSizeAndPosition.height / 2
     ).toString() + 'px'
 }
-
-generateBallAtRandomY()
 
 function moveBallFromStartingPosition() {
   updateBallPosition()
@@ -147,8 +151,6 @@ function moveBallFromStartingPosition() {
 
   // console.log(intervalIds)
 }
-
-moveBallFromStartingPosition()
 
 function moveBallNorthWest() {
   updateBallPosition()
@@ -243,7 +245,7 @@ function ifBallCollideLogic() {
     isBallHitByComputer = false
     ballCurrentDirection = 'right'
 
-    console.log('hit')
+    // console.log('hit')
     increaseBallSpeed()
     ballBounceFromPlayer()
   } else if (ballSizeAndPosition.y <= bodySizeAndPosition.y) {
@@ -286,7 +288,7 @@ function ifBallCollideLogic() {
     isBallHitByComputer = true
     isBallHitByPlayer = false
     ballCurrentDirection = 'left'
-    console.log('Collided with computer bar')
+    // console.log('Collided with computer bar')
     increaseBallSpeed()
     ballBounceFromComputer()
   } else if (ballSizeAndPosition.left <= bodySizeAndPosition.left) {
@@ -311,36 +313,40 @@ function updateScoreBoard() {
   allPopupComputerScores.forEach((computerElement) => {
     computerElement.textContent = computerScoreNum.toString()
   })
+
+  if (isInfiniteMode === false) {
+    checkPlayerWin()
+  }
 }
 
 function ballBounceFromPlayer() {
   clearAllInterval()
 
-  console.log('bouncing')
+  // console.log('bouncing')
   if (ballCenterY < playerBarCenterY) {
     const intervalBouncePlayer1 = setInterval(
       moveBallNorthEast,
       setIntervalNumberMs
     )
     intervalIds.push(intervalBouncePlayer1)
-    console.log('move ball north east')
+    // console.log('move ball north east')
   } else if (ballCenterY > playerBarCenterY) {
     const intervalBouncePlayer2 = setInterval(
       moveBallSouthEast,
       setIntervalNumberMs
     )
     intervalIds.push(intervalBouncePlayer2)
-    console.log('move ball south east')
+    // console.log('move ball south east')
   } else if (ballCenterY === playerBarCenterY) {
     const intervalBouncePlayer3 = setInterval(moveBallEast, setIntervalNumberMs)
     intervalIds.push(intervalBouncePlayer3)
-    console.log('move ball east')
+    // console.log('move ball east')
   }
 }
 
 function ballBounceFromComputer() {
   clearAllInterval()
-  console.log('bouncing')
+  // console.log('bouncing')
 
   if (ballCenterY < computerBarCenterY) {
     const intervalBounceComputer1 = setInterval(
@@ -376,7 +382,7 @@ function clearAllInterval() {
 function moveComputerBar() {
   updateBallPosition()
   updateComputerBarPosition()
-  console.log(timeoutIds)
+  // console.log(timeoutIds)
 
   if (ballCenterY < computerBarCenterY) {
     moveTimeoutComputerNorth = setTimeout(
@@ -385,8 +391,8 @@ function moveComputerBar() {
     )
 
     timeoutIds.push(moveTimeoutComputerNorth)
-    console.log(computerSizeAndPosition.y)
-    console.log('computer bar moving top')
+    // console.log(computerSizeAndPosition.y)
+    // console.log('computer bar moving top')
   } else if (ballCenterY > computerBarCenterY) {
     moveTimeoutComputerSouth = setTimeout(
       moveComputerBarSouth,
@@ -394,8 +400,8 @@ function moveComputerBar() {
     )
     timeoutIds.push(moveTimeoutComputerSouth)
 
-    console.log(computerSizeAndPosition.y)
-    console.log('computer bar moving bottom')
+    // console.log(computerSizeAndPosition.y)
+    // console.log('computer bar moving bottom')
   } else {
     clearAllTimeout()
   }
@@ -434,13 +440,62 @@ function increaseBallSpeed() {
 }
 
 function checkPlayerWin() {
+  console.log(playerScoreNum, computerScoreNum)
   if (playerScoreNum === numberOfRoundsToWin) {
     isPlayerWin = true
+    stopAllMovement()
     playerWinContainer.classList.add('active')
-  } else if (playerScoreNum === numberOfRoundsToWin) {
+    overlay.classList.add('active')
+  } else if (computerScoreNum === numberOfRoundsToWin) {
+    console.log('computer wins')
     isPlayerWin = false
+    stopAllMovement()
     computerWinContainer.classList.add('active')
+    overlay.classList.add('active')
   }
+}
+
+function resetGameState() {
+  playerSizeAndPosition = playerBar.getBoundingClientRect()
+  computerSizeAndPosition = computerBar.getBoundingClientRect()
+
+  playerBarCenterX = playerSizeAndPosition.width / 2 + playerSizeAndPosition.x
+
+  playerBarCenterY = playerSizeAndPosition.height / 2 + playerSizeAndPosition.y
+
+  playerBarHitBoxX = playerSizeAndPosition.x + playerSizeAndPosition.width
+
+  computerBarCenterX =
+    computerSizeAndPosition.x + computerSizeAndPosition.width / 2
+  computerBarCenterY =
+    computerSizeAndPosition.y + computerSizeAndPosition.height / 2
+
+  ballSizeAndPosition = ball.getBoundingClientRect()
+
+  ballCenterX = ballSizeAndPosition.width / 2 + ballSizeAndPosition.x
+  ballCenterY = ballSizeAndPosition.height / 2 + ballSizeAndPosition.y
+
+  ballCurrentDirection
+  isBallHitByPlayer
+  isBallHitByComputer
+
+  // distance and interval for ball
+  pxDistanceBallMove = 3
+  setIntervalNumberMs = 15
+
+  // distance and interval for computer bar
+  pxDistanceComputerMove = 6
+  setTimeoutComputer = 0.5
+
+  moveTimeoutComputerNorth
+  moveTimeoutComputerSouth
+
+  playerScoreNum = 0
+  computerScoreNum = 0
+
+  isPlayerWin
+
+  isInfiniteMode
 }
 
 function stopAllMovement() {
@@ -448,6 +503,7 @@ function stopAllMovement() {
   clearAllTimeout()
 }
 
-console.log(ballSizeAndPosition)
-
-const ballWidth = getComputedStyle(ball).getPropertyValue('--ball-width')
+function gameInit() {
+  generateBallAtRandomY()
+  moveBallFromStartingPosition()
+}

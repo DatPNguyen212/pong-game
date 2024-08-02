@@ -184,7 +184,9 @@ body {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.6);
-  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
 .player-win-container.active,
@@ -193,5 +195,5 @@ body {
 }
 
 .overlay.active {
-  display: initial;
+  opacity: 1;
 }
