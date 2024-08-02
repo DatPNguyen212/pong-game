@@ -107,6 +107,7 @@ gameInit()
 
 function generateBallAtRandomY() {
   pxDistanceBallMove = 3
+  pxDistanceComputerMove = 6
   const randomY = Math.floor(
     Math.random() * (bodySizeAndPosition.height - ballSizeAndPosition.height)
   )
@@ -438,6 +439,9 @@ function updateComputerBarPosition() {
 
 function increaseBallSpeed() {
   pxDistanceBallMove += 0.5
+  if (pxDistanceComputerMove < 8) {
+    pxDistanceComputerMove += 0.3
+  }
 }
 
 function checkPlayerWin() {
@@ -457,25 +461,6 @@ function checkPlayerWin() {
 }
 
 function resetGameState() {
-  playerSizeAndPosition = playerBar.getBoundingClientRect()
-  computerSizeAndPosition = computerBar.getBoundingClientRect()
-
-  playerBarCenterX = playerSizeAndPosition.width / 2 + playerSizeAndPosition.x
-
-  playerBarCenterY = playerSizeAndPosition.height / 2 + playerSizeAndPosition.y
-
-  playerBarHitBoxX = playerSizeAndPosition.x + playerSizeAndPosition.width
-
-  computerBarCenterX =
-    computerSizeAndPosition.x + computerSizeAndPosition.width / 2
-  computerBarCenterY =
-    computerSizeAndPosition.y + computerSizeAndPosition.height / 2
-
-  ballSizeAndPosition = ball.getBoundingClientRect()
-
-  ballCenterX = ballSizeAndPosition.width / 2 + ballSizeAndPosition.x
-  ballCenterY = ballSizeAndPosition.height / 2 + ballSizeAndPosition.y
-
   ballCurrentDirection
   isBallHitByPlayer
   isBallHitByComputer
