@@ -200,7 +200,8 @@ body {
 
 #infinite-mode-input + .infinite-mode-label {
   --infinite-mode-label-font-size: 16px;
-  --infinite-mode-label-color: hsl(100, 90%, 50%);
+  --infinite-mode-label-color: hsl(54, 90%, 50%);
+  --infinite-mode-label-checked-color: hsl(100, 90%, 50%);
   --infinite-mode-toggle-background: rgba(0, 0, 0, 0.5);
   --infinite-mode-toggle-circle-background: white;
 
@@ -234,4 +235,8 @@ body {
 #infinite-mode-input:checked + .infinite-mode-label::after {
   left: calc(0.75 * 2.5 * var(--infinite-mode-label-font-size));
   transform: translateX(-50%);
+}
+
+#infinite-mode-input:checked + .infinite-mode-label {
+  color: var(--infinite-mode-label-checked-color);
 }
