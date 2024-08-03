@@ -27,6 +27,9 @@ const allInfiniteModeButton = document.querySelectorAll(
   '[data-infinite-button]'
 )
 
+const infiniteModeLabel = document.querySelector('[data-infinite-mode-label]')
+const infiniteModeInput = document.querySelector('#infinite-mode-input')
+
 let playerSizeAndPosition = playerBar.getBoundingClientRect()
 let computerSizeAndPosition = computerBar.getBoundingClientRect()
 
@@ -82,7 +85,11 @@ const timeoutIds = []
 
 allPlayAgainButton.forEach((playAgainButton) => {
   playAgainButton.addEventListener('click', (event) => {
-    location.reload()
+    playerWinContainer.classList.remove('active')
+    computerWinContainer.classList.remove('active')
+    overlay.classList.remove('active')
+    isInfiniteMode = false
+    gameRestart()
   })
 })
 
@@ -92,8 +99,25 @@ allInfiniteModeButton.forEach((infiniteButton) => {
     computerWinContainer.classList.remove('active')
     overlay.classList.remove('active')
     isInfiniteMode = true
+    updateInfiniteModeInputLabel()
     gameInit()
   })
+})
+
+infiniteModeInput.addEventListener('change', (event) => {
+  if (event.target.checked) {
+    isInfiniteMode = true
+    infiniteModeLabel.textContent = 'Infinite Mode'
+  } else if (!event.target.checked) {
+    isInfiniteMode = false
+    infiniteModeLabel.textContent = 'First to 5pts'
+    if (
+      playerScoreNum >= numberOfRoundsToWin ||
+      computerScoreNum >= numberOfRoundsToWin
+    ) {
+      gameRestart()
+    }
+  }
 })
 
 body.addEventListener('mousemove', (event) => {
@@ -451,19 +475,22 @@ function checkPlayerWin() {
     stopAllMovement()
     playerWinContainer.classList.add('active')
     overlay.classList.add('active')
+    infiniteModeInput.disabled = true
   } else if (computerScoreNum === numberOfRoundsToWin) {
     console.log('computer wins')
     isPlayerWin = false
     stopAllMovement()
     computerWinContainer.classList.add('active')
     overlay.classList.add('active')
+    infiniteModeInput.disabled = true
   }
 }
 
 function resetGameState() {
-  ballCurrentDirection
-  isBallHitByPlayer
-  isBallHitByComputer
+  stopAllMovement()
+  ballCurrentDirection = undefined
+  isBallHitByPlayer = undefined
+  isBallHitByComputer = undefined
 
   // distance and interval for ball
   pxDistanceBallMove = 3
@@ -473,15 +500,18 @@ function resetGameState() {
   pxDistanceComputerMove = 6
   setTimeoutComputer = 0.5
 
-  moveTimeoutComputerNorth
-  moveTimeoutComputerSouth
+  moveTimeoutComputerNorth = undefined
+  moveTimeoutComputerSouth = undefined
 
   playerScoreNum = 0
   computerScoreNum = 0
 
-  isPlayerWin
+  isPlayerWin = undefined
 
-  isInfiniteMode
+  isInfiniteMode = false
+
+  updateScoreBoard()
+  updateInfiniteModeInputLabel()
 }
 
 function stopAllMovement() {
@@ -496,4 +526,21 @@ function updateBodySizeAndPosition() {
 function gameInit() {
   generateBallAtRandomY()
   moveBallFromStartingPosition()
+}
+
+function gameRestart() {
+  resetGameState()
+  generateBallAtRandomY()
+  moveBallFromStartingPosition()
+}
+
+function updateInfiniteModeInputLabel() {
+  infiniteModeInput.removeAttribute('disabled')
+  if (!isInfiniteMode) {
+    infiniteModeLabel.textContent = 'First to 5pts'
+    infiniteModeInput.checked = false
+  } else {
+    infiniteModeLabel.textContent = 'Infinite Mode'
+    infiniteModeInput.checked = true
+  }
 }
